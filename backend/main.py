@@ -1,9 +1,21 @@
+from contextlib import asynccontextmanager
+
 # pyrefly: ignore [missing-import]
 from fastapi import FastAPI
 # pyrefly: ignore [missing-import]
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI(title="AI Receptionist API")
+from database import init_db
+from routers import appointments
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
+
+
+app = FastAPI(title="AI Receptionist API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -11,6 +23,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(appointments.router)
 
 
 @app.get("/health")
