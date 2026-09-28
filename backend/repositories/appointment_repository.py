@@ -1,8 +1,10 @@
 from typing import Optional
 
+from timing import timed_db
+
 from database import get_connection
 
-
+@timed_db
 def create(customer_name: str, phone: str, date: str, time: str,
            purpose: Optional[str]) -> dict:
     conn = get_connection()
@@ -20,7 +22,7 @@ def create(customer_name: str, phone: str, date: str, time: str,
     finally:
         conn.close()
 
-
+@timed_db
 def get_by_id(appointment_id: int) -> Optional[dict]:
     conn = get_connection()
     try:
@@ -31,7 +33,7 @@ def get_by_id(appointment_id: int) -> Optional[dict]:
     finally:
         conn.close()
 
-
+@timed_db
 def list_all(status: Optional[str] = None, date: Optional[str] = None) -> list[dict]:
     query = "SELECT * FROM appointments WHERE 1=1"
     params: list = []
@@ -50,7 +52,7 @@ def list_all(status: Optional[str] = None, date: Optional[str] = None) -> list[d
     finally:
         conn.close()
 
-
+@timed_db
 def find_booked_at(date: str, time: str) -> Optional[dict]:
     conn = get_connection()
     try:
@@ -63,7 +65,7 @@ def find_booked_at(date: str, time: str) -> Optional[dict]:
     finally:
         conn.close()
 
-
+@timed_db
 def mark_cancelled(appointment_id: int) -> Optional[dict]:
     conn = get_connection()
     try:
