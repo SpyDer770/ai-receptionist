@@ -65,3 +65,11 @@ def test_get_nonexistent_appointment(client):
     response = client.get("/appointments/999999")
 
     assert response.status_code == 404
+
+
+def test_invalid_appointment_id_format(client):
+    response = client.get("/appointments/abc")
+
+    assert response.status_code == 422
+    error_locations = [err["loc"][-1] for err in response.json()["detail"]]
+    assert "appointment_id" in error_locations
