@@ -1,5 +1,6 @@
 import pytest
 
+# pyrefly: ignore [missing-import]
 from ai_schemas import StructuredIntent
 from ai_service import AIServiceError
 

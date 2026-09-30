@@ -46,4 +46,4 @@ def timed_db(func):
             if tracker is not None:
                 tracker.db_ms += (time.perf_counter() - start) * 1000
                 tracker.db_calls += 1
-    return wrapper
+    return wrapper 
